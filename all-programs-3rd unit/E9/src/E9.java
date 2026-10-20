@@ -1,97 +1,87 @@
+
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
-//a modificar el archivo para hacer el programa
-//Hector Caleb Mosqueda Santes N° control 25260872
-public class E9{
-    //Static para pod3r usarlo en el main
-    static Scanner sc = new Scanner(System.in);
-    static int numCliente = 1;
 
-    public static void main(String[] args) {
-        // Usamos Queue implementado con LinkedList para representar la cola
-        Queue<String> filaBanco = new LinkedList<>();
-        int opcion = 0;
+public class E9 {
+public static void main(String[] args) {
+ Queue<String> cola = new LinkedList<>();
+ //Hector Caleb Mosqueda Santes, No.Control:25260872/
+Scanner leer = new Scanner(System.in);
+      int opcion;
+        int contadorImpresiones = 0;
 
         do {
-            mostrarMenu();
-            System.out.print("Elige una opcion: ");
-            opcion = sc.nextInt();
-            sc.nextLine(); // Limpiar el buffer del scanner
+            System.out.println("\n Sistema de Impresora");
+            System.out.println("1. Enviar un trabajo");
+            System.out.println("2. Imprimir el sig trabajo");
+            System.out.println("3. Ver la cola de impresion completa");
+            System.out.println("4. Ver los trabajos pendientes");
+            System.out.println("5. Cancelar un trabajo");
+            System.out.println("6. Conteo total de impresiones realizadas");
+            System.out.println("0. Salir");
+            System.out.print("Opcion: ");
+            opcion = leer.nextInt();
+            leer.nextLine(); // Limpiar buffer
 
             switch (opcion) {
                 case 1:
-                    agregarCliente(filaBanco);
+                    System.out.print("Ingrese el nombre del documento: ");
+                    String trabajo = leer.nextLine();
+                    cola.offer(trabajo);
+                    System.out.println("Trabajo agregado a la cola.");
                     break;
+
                 case 2:
-                    atenderCliente(filaBanco);
+                    if (!cola.isEmpty()) {
+                        String impreso = cola.poll();
+                        System.out.println("Imprimiendo: " + impreso);
+                        contadorImpresiones++;
+                    } else {
+                        System.out.println("No hay trabajos pendientes.");
+                    }
                     break;
+
                 case 3:
-                    mostrarFila(filaBanco);
+                    if (cola.isEmpty()) {
+                        System.out.println("La cola de impresion esta vacia.");
+                    } else {
+                        System.out.println("Lista de Trabajos en Cola");
+                        for (String t : cola) {
+                            System.out.println("- " + t);
+                        }
+                    }
                     break;
+
                 case 4:
-                    mostrarProximo(filaBanco);
+                    System.out.println("Cantidad de trabajos pendientes: " + cola.size());
                     break;
+
                 case 5:
-                    contarClientes(filaBanco);
+                    if (!cola.isEmpty()) {
+                        String cancelado = cola.poll();
+                        System.out.println("Trabajo cancelado: " + cancelado);
+                    } else {
+                        System.out.println("No hay trabajos para cancelar.");
+                    }
                     break;
+
                 case 6:
-                    System.out.println("Saliendo del programa...");
+                    System.out.println("Conteo total de impresiones realizadas: " + contadorImpresiones);
                     break;
+
+                case 0:
+                    System.out.println("Saliendo del sistema...");
+                    break;
+
                 default:
-                    System.out.println("Opcion no valida, intenta de nuevo.");
+                    System.out.println("Opcion invalida, intente de nuevo.");
             }
-            System.out.println(); // Línea para separar
+        } while (opcion != 0);
 
-        } while (opcion != 6);
+        leer.close();
     }
-
-    // --- FUNCIONES DEL PROGRAMA ---
-
-    // Función para mostrar las opciones
-    public static void mostrarMenu() {
-        System.out.println("=== SIMULADOR DE BANCO ===");
-        System.out.println("1. Llegada de un cliente");
-        System.out.println("2. Atender al siguiente cliente");
-        System.out.println("3. Ver la fila completa");
-        System.out.println("4. Ver proximo en ser atendido");
-        System.out.println("5. Ver clientes en espera");
-        System.out.println("6. Salir");
-    }
-
-    // 1. Agregar cliente al final (Enqueue)
-    public static void agregarCliente(Queue<String> fila) {
-        String cliente = "Cliente " + numCliente;
-        fila.add(cliente); // Tambien se puede usar fila.offer(cliente)
-        System.out.println("--> Se agrego a la fila: " + cliente);
-        numCliente++;
-    }
-
-    // 2. Atender cliente del frente (Dequeue)
-    public static void atenderCliente(Queue<String> fila) {
-        if (fila.isEmpty()) {
-            System.out.println("--> No hay clientes en la fila.");
-        } else {
-            String atendido = fila.poll(); // Saca al primero de la fila
-            System.out.println("--> Se atendio a: " + atendido);
-        }
-    }
-
-    // 3. Mostrar todos los clientes de la fila
-    public static void mostrarFila(Queue<String> fila) {
-        if (fila.isEmpty()) {
-            System.out.println("--> La fila esta vacia.");
-        } else {
-            System.out.println("--- Clientes en fila ---");
-            int i = 1;
-            for (String c : fila) {
-                System.out.println(i + ". " + c);
-                i++;
-            }
-        }
-    }
-
-    // 4. Ver quién es el siguiente sin sacarlo de la fila (Peek)
+  // 4. Ver quién es el siguiente sin sacarlo de la fila (Peek)
     public static void mostrarProximo(Queue<String> fila) {
         if (fila.isEmpty()) {
             System.out.println("--> No hay clientes esperando.");
@@ -105,3 +95,5 @@ public class E9{
         System.out.println("--> Total de clientes esperando: " + fila.size());
     }
 }
+
+  
